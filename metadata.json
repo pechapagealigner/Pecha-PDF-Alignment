@@ -1,0 +1,6 @@
+{
+  "name": "Pecha Aligner & Printing Studio",
+  "description": "Professional Tibetan Pecha manuscript imposition, duplex page alignment, and vertical printing layout engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
