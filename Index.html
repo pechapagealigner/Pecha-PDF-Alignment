@@ -1046,7 +1046,63 @@ button:active:not(:disabled){transform:translateY(0)}
   color:#8a682d;font-size:10px;font-weight:800;letter-spacing:.14em;
 }
 .premium-eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:#b88a3b;box-shadow:0 0 0 3px rgba(184,138,59,.13)}
-</style></head>
+</style>
+<style id="premium-navy-background-v2">
+/* Stronger premium navy background — UI/logic unchanged */
+html, body{
+  background:#0a1630 !important;
+}
+body{
+  background:
+    radial-gradient(900px 600px at 12% -5%, rgba(49,91,234,.42), transparent 58%),
+    radial-gradient(800px 560px at 92% 5%, rgba(184,138,59,.24), transparent 56%),
+    radial-gradient(700px 500px at 50% 100%, rgba(36,73,201,.25), transparent 62%),
+    linear-gradient(135deg,#071127 0%,#0b1935 48%,#101f3c 100%) !important;
+  color:#eef4ff;
+}
+body:before{
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) !important;
+  background-size:44px 44px !important;
+  opacity:.65;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(420px 220px at 50% 12%,rgba(255,255,255,.06),transparent 70%),
+    linear-gradient(to bottom,transparent 0%,rgba(3,9,22,.18) 100%);
+}
+header{
+  background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(246,249,253,.94)) !important;
+  border-color:rgba(255,255,255,.75) !important;
+  box-shadow:0 24px 70px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.08) !important;
+}
+.card{
+  background:rgba(255,255,255,.97) !important;
+  border-color:rgba(255,255,255,.55) !important;
+  box-shadow:0 22px 55px rgba(0,0,0,.24),0 0 0 1px rgba(255,255,255,.06) !important;
+}
+.section-title h2,
+.section-title p,
+.card h2,
+.card h3{
+  color:inherit;
+}
+.premium-eyebrow{
+  background:#f4ead7 !important;
+}
+footer, .footer, .credit, .tibetan-credit{
+  color:rgba(231,239,255,.78) !important;
+}
+a{color:#bcd0ff}
+</style>
+
+</head>
 
 <body>
 <div class="wrap">
