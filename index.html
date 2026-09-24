@@ -1838,11 +1838,14 @@ dropZone.addEventListener("drop", e => {
 
   async function cRenderPreview() {
     cPreview.innerHTML = '';
-    const limit = Math.min(cPlan.length, 12);
-    const previewScale = .48;
+    const limit = Math.min(cPlan.length, 6);
+    // Combine previews can contain up to 6 Pecha pages per sheet.
+    // Keep the preview lightweight so large PDFs render quickly in the browser.
+    const previewScale = .22;
 
     for (let i = 0; i < limit; i++) {
       const sheet = cPlan[i];
+      cSetStatus(`<span class="loading"></span>Rendering Combine preview: sheet ${i+1} of ${limit}...`);
       const canvas = document.createElement('canvas');
       canvas.width = Math.max(1, Math.ceil(sheet.sheetW * previewScale));
       canvas.height = Math.max(1, Math.ceil(sheet.sheetH * previewScale));
@@ -1907,7 +1910,7 @@ dropZone.addEventListener("drop", e => {
     if (cPlan.length > 12) {
       const more = document.createElement('div');
       more.className = 'note';
-      more.textContent = `Preview shows the first 12 sheets. Download includes all ${cPlan.length} sheets.`;
+      more.textContent = `Preview shows the first 6 sheets. Download includes all ${cPlan.length} sheets.`;
       cPreview.appendChild(more);
     }
   }
