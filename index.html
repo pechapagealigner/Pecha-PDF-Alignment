@@ -506,6 +506,7 @@ footer{
 
 
 /* Tool chooser */
+#toolChoice .actions{max-width:900px;margin:16px auto 0;grid-template-columns:repeat(3,minmax(0,1fr));}
 #toolChoice .actions button{min-height:54px;font-size:15px;}
 #printingTool .section-title p,#toolChoice .section-title p{color:var(--muted);font-size:12px;margin:5px 0 0;}
 #printPreview{margin-top:18px;}
@@ -598,6 +599,7 @@ footer{
         <button id="previewBtn" class="primary" type="button">Preview Alignment</button>
         <button id="downloadBtn" class="success" type="button" disabled>Download PDF</button>
       </div>
+      <button id="alignmentBackBtn" class="actions print-back" type="button">Back to PDF Tools</button>
 
       <div id="status" class="status"></div>
 
@@ -1070,6 +1072,7 @@ dropZone.addEventListener("drop", e => {
   const openAlignment = document.getElementById('openAlignment');
   const openPrinting = document.getElementById('openPrinting');
   const openCombine = document.getElementById('openCombine');
+  const alignmentBack = document.getElementById('alignmentBackBtn');
 
   function showTool(which){
     choice.classList.add('hidden');
@@ -1081,6 +1084,7 @@ dropZone.addEventListener("drop", e => {
   openAlignment.addEventListener('click',()=>showTool('alignment'));
   openPrinting.addEventListener('click',()=>showTool('printing'));
   openCombine.addEventListener('click',()=>showTool('combine'));
+  alignmentBack.addEventListener('click',()=>{ alignment.classList.add('hidden'); printing.classList.add('hidden'); combine.classList.add('hidden'); choice.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); });
 
   const pInput=document.getElementById('printPdfInput');
   const pName=document.getElementById('printFileName');
