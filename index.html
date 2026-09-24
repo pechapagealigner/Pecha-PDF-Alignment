@@ -35,7 +35,7 @@ html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
+  font-family:'Dai Banna SIL',Inter,Segoe UI,Arial,sans-serif;
   color:var(--text);
   background:
     radial-gradient(circle at 15% 0%,rgba(47,125,240,.13),transparent 28%),
@@ -404,8 +404,13 @@ button:disabled{
 footer{
   text-align:center;
   color:#8994a6;
-  font-size:11px;
+  font-size:13px;
   margin-top:24px;
+}
+
+.tibetan-credit{
+  font-family:'Monlam Uni PayTsik','Dai Banna SIL',sans-serif;
+  font-size:14px;
 }
 
 /* LOADING */
@@ -576,6 +581,241 @@ footer{
 .print-settings .print-field{max-width:520px;width:100%;margin:0 auto;}
 @media(max-width:700px){.print-options,.print-settings{grid-template-columns:1fr;}
 .print-settings .print-field{max-width:520px;width:100%;margin:0 auto;}}
+
+
+/* =========================================================
+   PECHA PAGE ALIGNER — PROFESSIONAL UI REFRESH
+   UI ONLY: JavaScript/PDF logic intentionally untouched.
+   ========================================================= */
+:root{
+  --navy:#0b1733;
+  --navy2:#142957;
+  --blue:#2563eb;
+  --blue2:#4f8cff;
+  --gold:#d7a52d;
+  --gold2:#f0cf72;
+  --bg:#eef3f9;
+  --card:#ffffff;
+  --text:#17233d;
+  --muted:#6b7890;
+  --border:#e2e8f1;
+  --shadow:0 18px 55px rgba(17,35,68,.10);
+}
+
+html,body{background:#eef3f9;}
+body{
+  font-family:'Dai Banna SIL',Inter,'Segoe UI',Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% -5%,rgba(37,99,235,.12),transparent 28%),
+    radial-gradient(circle at 94% 2%,rgba(215,165,45,.12),transparent 24%),
+    linear-gradient(180deg,#f8fafc 0%,#edf2f8 100%);
+}
+
+.wrap{width:min(1160px,calc(100% - 30px));padding:26px 0 58px;}
+
+/* Brand area */
+.site-header{
+  padding:5px 0 18px;
+  position:relative;
+}
+.site-header:after{
+  content:"";
+  width:72px;height:3px;border-radius:99px;
+  position:absolute;left:50%;bottom:7px;transform:translateX(-50%);
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+}
+.site-header-logo{width:min(205px,46vw);filter:drop-shadow(0 10px 20px rgba(9,25,55,.16));}
+
+/* Shared application cards */
+.card{
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(222,229,239,.95);
+  border-radius:24px;
+  padding:26px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(14px);
+  margin-bottom:18px;
+}
+.card:hover{box-shadow:0 22px 65px rgba(17,35,68,.12);}
+
+.section-title{gap:14px;margin-bottom:19px;}
+.section-title h2{font-size:21px;letter-spacing:-.25px;}
+.section-title p{font-size:13px;color:#718097;}
+
+/* Home tool chooser */
+#toolChoice{
+  padding:30px;
+  background:linear-gradient(145deg,#fff 0%,#f7faff 100%);
+  border-color:#dce5f2;
+}
+#toolChoice .section-title{margin-bottom:22px;}
+#toolChoice .section-title h2{font-size:24px;}
+#toolChoice .section-title p{font-size:14px;}
+#toolChoice .actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:0!important;
+}
+#toolChoice .actions button{
+  position:relative;
+  min-height:92px;
+  border:1px solid #dce5f1;
+  border-radius:17px;
+  padding:18px 18px 18px 55px;
+  text-align:left;
+  font-size:15px;
+  font-weight:800;
+  color:#17233d;
+  background:#fff;
+  box-shadow:0 5px 16px rgba(25,45,80,.05);
+  overflow:hidden;
+}
+#toolChoice .actions button:before{
+  position:absolute;left:17px;top:50%;transform:translateY(-50%);
+  width:27px;height:27px;border-radius:9px;
+  display:grid;place-items:center;
+  color:#fff;font-size:13px;font-weight:900;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  box-shadow:0 7px 16px rgba(37,99,235,.22);
+}
+#openAlignment:before{content:"↕";}
+#openPrinting:before{content:"▤";background:linear-gradient(135deg,#13834f,#26a66b)!important;}
+#openCombine:before{content:"＋";}
+#toolChoice .actions button:after{
+  content:"Open tool  ›";
+  position:absolute;left:55px;bottom:16px;
+  font-size:11px;font-weight:600;color:#8793a7;
+}
+#toolChoice .actions button:hover{
+  transform:translateY(-3px);
+  border-color:#bfd0e8;
+  box-shadow:0 14px 30px rgba(24,52,92,.11);
+}
+
+/* Tool headers */
+#alignmentTool,#printingTool,#combineTool{position:relative;}
+#alignmentTool:before,#printingTool:before,#combineTool:before{
+  content:"";display:block;height:4px;border-radius:99px;
+  position:absolute;left:26px;right:26px;top:0;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+}
+
+/* Upload zones */
+.upload{
+  border:1.5px dashed #b9c8dc;
+  border-radius:20px;
+  padding:38px 22px;
+  background:linear-gradient(180deg,#fbfdff,#f5f8fc);
+  transition:.2s ease;
+}
+.upload:hover,.upload.dragover{
+  border-color:var(--blue);
+  background:linear-gradient(180deg,#f7faff,#edf4ff);
+  box-shadow:0 12px 30px rgba(37,99,235,.09);
+  transform:translateY(-1px);
+}
+.upload-icon{
+  width:62px;height:62px;border-radius:18px;
+  background:linear-gradient(145deg,#eaf2ff,#dce9ff);
+  color:var(--blue);
+  font-size:28px;
+  box-shadow:inset 0 0 0 1px rgba(37,99,235,.08),0 8px 18px rgba(37,99,235,.08);
+}
+.upload-title{font-size:18px;margin-top:2px;}
+.upload-file{font-size:13px;color:#7b879b;}
+
+/* Controls */
+.controls{margin-top:22px;padding-top:22px;border-top:1px solid #e5eaf1;}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:#65738a;margin-bottom:11px;}
+.parts{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;}
+.part{
+  border:1px solid #dce4ef;
+  border-radius:13px;
+  padding:14px 10px;
+  background:#f8fafc;
+  color:#2b3850;
+  font-size:14px;
+  box-shadow:none;
+}
+.part:hover{border-color:#9eb4d3;background:#fff;}
+.part.active{background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 9px 22px rgba(37,99,235,.23);}
+
+.actions{gap:12px;margin-top:14px;}
+.actions button{
+  border-radius:13px;
+  padding:14px 18px;
+  font-size:14px;
+  letter-spacing:.05px;
+}
+.primary{background:linear-gradient(135deg,#2563eb,#4b86f7);box-shadow:0 8px 20px rgba(37,99,235,.18);}
+.success{background:linear-gradient(135deg,#14824e,#25a969);box-shadow:0 8px 20px rgba(20,130,78,.16);}
+.actions button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(25,45,80,.17);}
+
+.back-tool-btn,.print-back{
+  border-radius:13px!important;
+  background:#fff!important;
+  border:1px solid #d9e2ed!important;
+  color:#526177!important;
+}
+.back-tool-btn:hover,.print-back:hover{background:#f7f9fc!important;}
+
+.status{
+  margin-top:15px;padding:10px 12px;min-height:20px;
+  border-radius:10px;
+}
+.status.ok{background:#edf9f2;}
+.status.error{background:#fff1f1;}
+.note{background:#f7f9fc;border:1px solid #e7ecf3;border-radius:12px;padding:11px 13px;}
+
+/* Preview */
+.preview-head{align-items:center;}
+.preview-head h2{font-size:21px;}
+.preview{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-top:19px;}
+.page{
+  border:1px solid #dfe6ef;
+  border-radius:12px;
+  background:#fff;
+  padding:7px;
+  box-shadow:0 5px 15px rgba(23,40,70,.06);
+  transition:.2s ease;
+}
+.page:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(23,40,70,.12);border-color:#cbd8e8;}
+.page img{border:1px solid #e1e6ee;border-radius:7px;}
+.number{top:11px;left:11px;border-radius:7px;min-width:36px;height:21px;background:rgba(11,23,51,.90);font-size:9px;}
+.new{font-size:12px;margin-top:9px;}
+.original{font-size:10px;}
+
+/* Print/combine panels */
+.print-options{gap:12px;}
+.print-size{
+  border-radius:13px;background:#f8fafc;border-color:#dce4ef;
+  padding:14px 16px;
+}
+.print-size.active{background:linear-gradient(135deg,var(--blue),var(--blue2));}
+.print-field,.info{border-color:#e1e7ef;background:#fafbfd;border-radius:13px;}
+.print-field select{border-radius:10px;padding:11px;}
+.print-preview-grid{gap:16px;}
+.print-sheet{border-radius:12px;background:#f8fafc;box-shadow:0 4px 14px rgba(20,40,70,.04);}
+
+/* Modals */
+.page-preview-modal,#printFitModal{background:rgba(6,15,35,.82);}
+#printFitDialog{border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.30);}
+
+footer{font-size:12px;margin-top:28px;color:#8995a8;}
+
+@media(max-width:700px){
+  .wrap{width:min(100% - 16px,1160px);padding-top:12px;}
+  .card{padding:17px;border-radius:19px;}
+  #toolChoice{padding:19px;}
+  #toolChoice .actions{grid-template-columns:1fr!important;}
+  #toolChoice .actions button{min-height:76px;}
+  #alignmentTool:before,#printingTool:before,#combineTool:before{left:17px;right:17px;}
+  .upload{padding:31px 15px;}
+  .parts{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .preview{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+}
 
 </style>
 
@@ -776,7 +1016,7 @@ footer{
   </div>
 </div>
 
-  <footer>By མོས་གུས།</footer>
+  <footer>By <span class="tibetan-credit">མོས་གུས།</span></footer>
 </div>
 
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
