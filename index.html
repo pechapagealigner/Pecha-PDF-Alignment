@@ -744,6 +744,7 @@ footer{
         <button id="combineDownloadBtn" class="success" type="button" disabled>Download PDF</button>
       </div>
       <div id="combineStatus" class="status"></div>
+      <div id="combineCalculation" class="combine-calculation hidden" aria-live="polite"></div>
       <p class="note">Combine Layout first calculates how many Pecha pages physically fit vertically on the selected sheet. That number automatically selects the existing 2, 3, 4, 5 or 6 part Page Alignment logic. The resulting aligned pages are then arranged using the same Printing Layout placement rules: centered vertically, 0 mm margin, 0 mm gap, proportional fitting when approved, and a 0.15 mm cutting outline on sheets 1, 51, 101, 151, and so on.</p>
       <div id="combinePreview" class="print-preview-grid"></div>
     </div>
@@ -1112,8 +1113,11 @@ dropZone.addEventListener("drop", e => {
 </script>
 
 
-<script>
+<script type="module">
+import * as combinePdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+combinePdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 (() => {
+  const pdfjsLib = combinePdfjsLib;
   const choice = document.getElementById('toolChoice');
   const alignment = document.getElementById('alignmentTool');
   const printing = document.getElementById('printingTool');
@@ -1578,6 +1582,7 @@ dropZone.addEventListener("drop", e => {
   const cName = document.getElementById('combineFileName');
   const cControls = document.getElementById('combineControls');
   const cStatus = document.getElementById('combineStatus');
+  const cCalculation = document.getElementById('combineCalculation');
   const cPreview = document.getElementById('combinePreview');
   const cPreviewBtn = document.getElementById('combinePreviewBtn');
   const cDownload = document.getElementById('combineDownloadBtn');
@@ -1674,6 +1679,31 @@ dropZone.addEventListener("drop", e => {
     const fitCount = Math.floor((sheetH + C_GAP_PT + 0.01) / (drawH + C_GAP_PT));
 
     return {ok:true, sheetW, sheetH, srcW:firstVp.width, srcH:firstVp.height, scale, drawW, drawH, fitCount};
+  }
+
+  function cShowCalculation(metrics, result=null) {
+    if (!cCalculation) return;
+    if (!metrics || !metrics.ok) {
+      cCalculation.classList.add('hidden');
+      cCalculation.innerHTML = '';
+      return;
+    }
+    const orientation = cOrientation.value === 'auto'
+      ? (metrics.sheetW > metrics.sheetH ? 'Landscape' : 'Portrait')
+      : (cOrientation.value === 'landscape' ? 'Landscape' : 'Portrait');
+    const pageW = metrics.srcW / C_MM_PT;
+    const pageH = metrics.srcH / C_MM_PT;
+    const sheetW = metrics.sheetW / C_MM_PT;
+    const sheetH = metrics.sheetH / C_MM_PT;
+    const fit = metrics.fitCount;
+    const partText = (fit >= 2 && fit <= 6) ? `${fit}-Part Page Alignment` : 'No matching 2–6 part alignment';
+    cCalculation.innerHTML =
+      `<div class="calc-title">Combine Layout — Automatic Calculation</div>` +
+      `<div class="calc-line">Selected sheet: <strong>${cSize} ${orientation}</strong> (${sheetW.toFixed(1)} × ${sheetH.toFixed(1)} mm)</div>` +
+      `<div class="calc-line">Original Pecha page: ${pageW.toFixed(1)} × ${pageH.toFixed(1)} mm</div>` +
+      `<div class="calc-line">Pages that fit vertically: <strong>${fit}</strong></div>` +
+      `<div class="calc-line">Alignment selected: <strong>${partText}</strong></div>`;
+    cCalculation.classList.remove('hidden');
   }
 
   async function cCalculateParts() {
@@ -1957,6 +1987,7 @@ dropZone.addEventListener("drop", e => {
     cPlan = [];
     cDownload.disabled = true;
     cPreview.innerHTML = '';
+    if (cCalculation) { cCalculation.classList.add('hidden'); cCalculation.innerHTML = ''; }
   }
 
   document.querySelectorAll('.combine-size').forEach(btn => btn.addEventListener('click', () => {
@@ -2010,6 +2041,9 @@ dropZone.addEventListener("drop", e => {
       }
 
       cSetStatus('<span class="loading"></span>Calculating automatic alignment and printing layout...');
+      const previewMetrics = await cGetPageMetrics();
+      if (previewMetrics.ok) cShowCalculation(previewMetrics);
+
       const result = await cMakePlan();
 
       if (result.needsFit) {
@@ -2131,6 +2165,7 @@ dropZone.addEventListener("drop", e => {
 </div>
 
 <style>
+.combine-calculation{margin-top:12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#f7f9fc;color:#344054;font-size:12px;line-height:1.55}.combine-calculation strong{color:#0d1b3e}.combine-calculation .calc-title{font-weight:800;font-size:13px;margin-bottom:4px}.combine-calculation .calc-line{color:var(--muted)}
 #combineFitModal{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,10,24,.72);backdrop-filter:blur(4px);}
 #combineFitModal.open{display:flex;}
 #combineFitDialog{width:min(480px,94vw);background:#fff;border-radius:18px;padding:22px;box-shadow:0 22px 70px rgba(0,0,0,.28);border:1px solid var(--border);}
